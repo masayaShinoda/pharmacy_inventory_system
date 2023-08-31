@@ -1,12 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Howdy</title>
-    <script src="htmx.js"></script>
-</head>
-<body>
-    <h1>Howdy</h1>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Howdy</title>
+		<script src="{% static 'htmx.js' %}"></script>
+	</head>
+	<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+		<h1>Howdy</h1>
+
+		<button
+			hx-confirm="Send a request?"
+			hx-post="/clicked"
+			hx-trigger="click"
+			hx-target="#response_from_server"
+		>
+			Click me
+		</button>
+
+		<label for="response_from_server">Response from server:</label>
+		<output id="response_from_server"></output>
+	</body>
 </html>
