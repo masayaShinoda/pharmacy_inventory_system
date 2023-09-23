@@ -8,4 +8,4 @@ def index(request):
 
 @require_http_methods(['POST'])
 def clicked(request):
-    return "<p>Server has received the click!</p>"
+    return HttpResponse("<p>Server has received the click!</p>")
