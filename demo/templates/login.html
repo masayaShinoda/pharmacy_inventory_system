@@ -1,0 +1,26 @@
+{% extends "components/layout.html" %}
+{% block title %}
+    Log In
+{% endblock title %}
+{% block body %}
+    <h2>Howdy! Let's log you in.</h2>
+    <div>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %}class="{% if message.tags == "error" %}bg-red-200 text-red-600{% endif %}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="block">
+                {{ field.label }}
+                {{ field }}
+            </label>
+        {% endfor %}
+        <button type="submit">Continue →</button>
+    </form>
+{% endblock body %}

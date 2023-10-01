@@ -1,0 +1,21 @@
+{% extends "components/layout.html" %}
+{% block title %}
+    Settings
+{% endblock title %}
+{% block body %}
+    <header class="mb-5">
+        <h2 class="text-xl">Settings</h2>
+    </header>
+    <p >Logged in as: {{ user.username }}</p>
+    <a href="{% url "logout" %}" class="text-emerald-600 underline">
+        Logout
+    </a>
+    {% if pharmacies %}
+        <h3>Pharmacies:</h3>
+        <ul>
+            {% for pharmacy in pharmacies %}
+            <li>{{ pharmacy.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock body %}

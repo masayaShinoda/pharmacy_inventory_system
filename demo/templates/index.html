@@ -1,10 +1,16 @@
 {% extends "components/layout.html" %}
+{% block title %}
+    Dashboard
+{% endblock title %}
 {% block body %}
+    <header class="mb-5">
+        <h2 class="text-xl">Welcome back, {{ user.username }}.</h2>
+    </header>
     <button hx-confirm="Send a request?"
             hx-post="/clicked"
             hx-trigger="click"
             hx-target="#response_from_server"
-            class="px-3 py-2 hover:bg-emerald-500 focus-visible:bg-emerald-500 bg-emerald-600 transition-colors text-white border rounded-lg">
+            class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:bg-emerald-700 transition-colors text-white border-none rounded-lg">
         Click me
     </button>
     <label for="response_from_server">Response from server:</label>

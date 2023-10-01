@@ -1,13 +1,43 @@
 {% load static %}
 {% block sidebar %}
-    <aside class="sticky top-0 left-0 flex flex-col w-56 py-6 px-4 ml-0 min-h-full bg-gradient-to-tr from-emerald-700 to-emerald-600 text-white max-w-xs">
-        <img src="{% static "images/logo-pharmacy.svg" %}" alt="Logo" width="64" height="64">
-        <h1 class="text-2xl font-semibold mb-5">My Pharma</h1>
-        <nav class="flex flex-col w-full my-5 p-5">
-            <a href="{% url 'index' %}">Dashboard</a>
-            <a href="{% url 'index' %}">Inventory</a>
-            <a href="{% url 'index' %}">Settings</a>
-            <a href="{% url 'index' %}">Support</a>
-        </nav>
+    <aside class="sticky top-0 left-0 flex flex-col w-52 py-6 ml-0 max-w-xs">
+        <div class="px-2">
+            <div class="flex flex-col items-start px-3">
+                <img src="{% static "images/logo-pharmacy.svg" %}" alt="Logo" width="64" height="64" class="object-contain object-center">
+                <h1 class="text-xl font-semibold my-3 text-emerald-600">My Pharma</h1>
+            </div>
+            <nav id="nav" class="flex flex-col w-full my-5">
+                <a href="{% url 'index' %}"
+                   class="text-lg py-2 px-3 mb-2 hover:bg-emerald-600 focus-visible:bg-emerald-600 rounded-md hover:text-white focus-visible:text-white">Dashboard</a>
+                <a href="{% url 'index' %}"
+                   class="text-lg py-2 px-3 mb-2 hover:bg-emerald-600 focus-visible:bg-emerald-600 rounded-md hover:text-white focus-visible:text-white">Inventory</a>
+                <a href="{% url 'settings' %}"
+                   class="text-lg py-2 px-3 mb-2 hover:bg-emerald-600 focus-visible:bg-emerald-600 rounded-md hover:text-white focus-visible:text-white">Settings</a>
+                <a href="{% url 'index' %}"
+                   class="text-lg py-2 px-3 mb-2 hover:bg-emerald-600 focus-visible:bg-emerald-600 rounded-md hover:text-white focus-visible:text-white">Support</a>
+            </nav>
+        </div>
     </aside>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // set active links color
+            const pathname = window.location.pathname
+            const links = document.getElementById("nav").querySelectorAll("a")
+
+            Array.from(links).map(link => {
+                switch (link.textContent.toLowerCase()) {
+                    case "dashboard":
+                        if(pathname === "/") {
+                            link.classList.add("bg-emerald-600", "text-white")
+                        }
+                        break
+                    case "settings":
+                        if(pathname === "/settings") {
+                            link.classList.add("bg-emerald-600", "text-white")
+                        }
+                        break
+                }
+            })
+        })
+    </script>
 {% endblock sidebar %}
