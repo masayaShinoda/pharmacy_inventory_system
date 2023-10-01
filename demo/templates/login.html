@@ -3,24 +3,33 @@
     Log In
 {% endblock title %}
 {% block body %}
-    <h2>Howdy! Let's log you in.</h2>
-    <div>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li {% if message.tags %}class="{% if message.tags == "error" %}bg-red-200 text-red-600{% endif %}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    <div class="mx-auto">
+        <header class="w-full block py-3 mb-5 border-b border-emerald-600">
+            <h2 class="text-2xl bold mb-1">Pharmacy Inventory System</h2>
+            <p class="text-neutral-600 dark:text-neutral-200">Howdy! Let's log you in.</p>
+        </header>
+        <div>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %}class="px-2 py-1 my-1 rounded {% if message.tags == "error" %}bg-red-100 text-red-600{% endif %}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <form method="post" action="{% url 'login' %}" class="w-full">
+            {% csrf_token %}
+            {% for field in form %}
+                <label class="block my-5">
+                    <span class="block mb-1">
+                        {{ field.label }}
+                    </span>
+                    <div class="block">
+                        {{ field }}
+                    </div>
+                </label>
+            {% endfor %}
+            <button type="submit" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:bg-emerald-700 transition-colors text-white border-none rounded-lg">Continue →</button>
+        </form>
     </div>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {% for field in form %}
-            <label class="block">
-                {{ field.label }}
-                {{ field }}
-            </label>
-        {% endfor %}
-        <button type="submit">Continue →</button>
-    </form>
 {% endblock body %}
