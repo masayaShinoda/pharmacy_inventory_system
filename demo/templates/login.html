@@ -20,13 +20,13 @@
         <form method="post" action="{% url 'login' %}" class="w-full">
             {% csrf_token %}
             {% for field in form %}
-                <label class="block my-5">
+                <label class="block my-3">
                     <span class="block mb-1">{{ field.label }}</span>
                     <div class="block text-black">{{ field }}</div>
                 </label>
             {% endfor %}
             <button type="submit"
-                    class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:bg-emerald-700 transition-colors text-white border-none rounded-lg">
+                    class="my-3 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:bg-emerald-700 transition-colors text-white border-none rounded-lg">
                 Continue →
             </button>
         </form>

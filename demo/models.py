@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
 
+
 class OpenFDADrug(models.Model):
     application_number = ArrayField(models.CharField(max_length=255))
     brand_name = ArrayField(models.CharField(max_length=255))
