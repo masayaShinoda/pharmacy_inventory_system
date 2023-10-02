@@ -2,7 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
+# class UserPreference(models.Model):
+#     preferred_theme = models.CharField(
+#         max_length=8, 
+#         choices=[
+#             ("dark", "dark"),
+#             ("light", "light"),
+#         ],
+#         blank=True,    
+#     )
+    
 
+class Manager(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    
 
 class OpenFDADrug(models.Model):
     application_number = ArrayField(models.CharField(max_length=255))
