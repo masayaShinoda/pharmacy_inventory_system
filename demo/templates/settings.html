@@ -4,9 +4,9 @@
 {% endblock title %}
 {% block body %}
     <header class="mb-5">
-        <h2 class="text-xl">Settings</h2>
+        <h2 class="text-2xl">Settings</h2>
     </header>
-    <p >Logged in as: {{ user.username }}</p>
+    <p>Logged in as: {{ user.username }}</p>
     <a href="{% url "logout" %}" class="text-emerald-600 underline">
         Logout
     </a>
