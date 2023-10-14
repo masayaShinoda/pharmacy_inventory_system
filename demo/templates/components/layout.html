@@ -6,13 +6,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock title %} - Django Pharmacy System</title>
-    {% comment %} <script src="{% static 'scripts/tailwind.js' %}"></script> {% endcomment %}
-    {% comment %} <link href="{% static 'output.css' %}" rel="stylesheet"> {% endcomment %}
     <script src="{% static 'scripts/htmx.js' %}"></script>
 		{% tailwind_css %}
   </head>
   <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    <div class="flex w-full max-w-full min-h-screen dark:bg-neutral-900 dark:text-white">
+    <div class="flex w-full max-w-full min-h-screen dark:bg-neutral-900 dark:text-white transition-colors duration-150 ease-out">
       {% if layout_options.sidebar != False %}
         {% include "components/sidebar.html" %}
       {% endif %}
