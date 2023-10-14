@@ -5,12 +5,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LoginForm
-from .models import Pharmacy
+from .models import Manager, Pharmacy
 
 @login_required
 @require_http_methods(["GET"])
 def index(request):
-    return render(request, "index.html")
+    user = request.user.id
+
+    context = {
+        'pharmacies': Pharmacy.get_managed_pharmacies(user),
+    }
+
+    return render(request, "index.html", context)
 
 @require_http_methods(["GET", "POST"])
 def login_view(request):
@@ -51,11 +57,12 @@ def logout_view(request):
     
 
 @login_required
+@require_http_methods(["GET"])
 def settings(request):
     user = request.user.id
 
     context = {
-        'pharmacies': Pharmacy.get_managed_pharmacies(user),
+        'user_preferences': Manager.get_current_manager(user),
     }
 
     return render(request, "settings.html", context)

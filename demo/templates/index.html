@@ -6,6 +6,12 @@
     <header class="mb-5">
         <h2 class="text-2xl">Welcome back, {{ user.username }}.</h2>
     </header>
+    {% if pharmacies %}
+        <h3>Pharmacies:</h3>
+        <ul>
+            {% for pharmacy in pharmacies %}<li>{{ pharmacy.name }}</li>{% endfor %}
+        </ul>
+    {% endif %}
     <button hx-confirm="Send a request?"
             hx-post="/clicked"
             hx-trigger="click"

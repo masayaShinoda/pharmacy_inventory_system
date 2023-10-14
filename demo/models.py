@@ -2,21 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
-# class UserPreference(models.Model):
-#     preferred_theme = models.CharField(
-#         max_length=8, 
-#         choices=[
-#             ("dark", "dark"),
-#             ("light", "light"),
-#         ],
-#         blank=True,    
-#     )
-    
-
 class Manager(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     
-    
+    def get_current_manager(user):
+        return Manager.objects.filter(user=user)
+
+
+    def __str__(self):
+        return self.user.username
+
+
+class UserPreference(models.Model):
+    user = models.OneToOneField(Manager, on_delete=models.CASCADE, primary_key=True)
+    preferred_theme = models.CharField(
+        max_length=8, 
+        choices=[
+            ("dark", "dark"),
+            ("light", "light"),
+        ],
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"""{self.user}: {self.preferred_theme}"""
+
 
 class OpenFDADrug(models.Model):
     application_number = ArrayField(models.CharField(max_length=255))
@@ -74,9 +84,8 @@ class Pharmacy(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    manager = models.ForeignKey(User, on_delete=models.CASCADE)
+    manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
 
-    @staticmethod
     def get_managed_pharmacies(user):
         return Pharmacy.objects.filter(manager=user)
 
