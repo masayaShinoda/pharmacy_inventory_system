@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LoginForm
-from .models import Manager, Pharmacy
+from .models import Manager, UserPreference, Pharmacy
 
 @login_required
 @require_http_methods(["GET"])
@@ -13,7 +13,7 @@ def index(request):
     user = request.user.id
 
     context = {
-        'pharmacies': Pharmacy.get_managed_pharmacies(user),
+        'pharmacies': Pharmacy.filter_managed_pharmacies(user),
     }
 
     return render(request, "index.html", context)
@@ -57,15 +57,23 @@ def logout_view(request):
     
 
 @login_required
-@require_http_methods(["GET"])
-def settings(request):
+@require_http_methods(["GET", "PUT"])
+def settings(request, preference_key=None, preference_value=None):
     user = request.user.id
-
-    context = {
-        'user_preferences': Manager.get_current_manager(user),
-    }
-
-    return render(request, "settings.html", context)
+    if request.method == "GET":
+        context = {
+            'user_preferences': UserPreference.get_user_preferences(user),
+        }
+        return render(request, "settings.html", context)
+    if request.method == "PUT":
+        if preference_key == "preferred-theme":
+            if preference_value == "light":
+                UserPreference.set_user_preferred_theme(user, "light")
+            elif preference_value == "dark":
+                UserPreference.set_user_preferred_theme(user, "dark")
+        return HttpResponse("<p>Server has receieved PUT request!</p>")
+    else:
+        return HttpResponseBadRequest()
 
 @require_http_methods(['POST'])
 def clicked(request):

@@ -6,5 +6,6 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("settings", views.settings, name="settings"),
+    path("settings/<str:preference_key>/<str:preference_value>", views.settings, name="settings"),
     path("clicked", views.clicked, name="clicked"),
 ]

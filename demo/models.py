@@ -6,7 +6,7 @@ class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     
     def get_current_manager(user):
-        return Manager.objects.filter(user=user)
+        return Manager.objects.get(user=user)
 
 
     def __str__(self):
@@ -23,6 +23,12 @@ class UserPreference(models.Model):
         ],
         blank=True,
     )
+
+    def get_user_preferences(user):
+        return UserPreference.objects.get(user=user)
+
+    def set_user_preferred_theme(user, theme):
+        UserPreference.objects.filter(user=user).update(preferred_theme=theme)
 
     def __str__(self):
         return f"""{self.user}: {self.preferred_theme}"""
@@ -86,7 +92,7 @@ class Pharmacy(models.Model):
 
     manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
 
-    def get_managed_pharmacies(user):
+    def filter_managed_pharmacies(user):
         return Pharmacy.objects.filter(manager=user)
 
     def __str__(self):
