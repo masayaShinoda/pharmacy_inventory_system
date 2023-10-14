@@ -11,28 +11,6 @@
         <a href="{% url "logout" %}" class="text-emerald-600 underline">Logout</a>
     </section>
     <section class="flex flex-col mb-3">
-        <fieldset>
-            <legend>Preferred theme</legend>
-            <div>
-                <input id="light"
-                       type="radio"
-                       name="preferred-theme"
-                       value="light"
-                       hx-put="{% url "settings" "preferred-theme" "light" %}"
-                       hx-target="#response_from_server" />
-                <label for="light">Light</label>
-            </div>
-            <div>
-                <input id="dark"
-                       type="radio"
-                       name="preferred-theme"
-                       value="dark"
-                       hx-put="{% url "settings" "preferred-theme" "dark" %}"
-                       hx-target="#response_from_server" />
-                <label for="dark">Dark</label>
-            </div>
-        </fieldset>
+        {% include "components/settings/theme-pref-fieldset.html" %}
     </section>
-    <div id="response_from_server"></div>
-    <div>{{ user_preferences.preferred_theme }}</div>
 {% endblock body %}

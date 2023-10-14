@@ -1,0 +1,47 @@
+{% block theme_pref_fieldset %}
+<fieldset id="theme-pref-fieldset">
+    <legend>Preferred theme</legend>
+    <div>
+        <input id="light"
+            type="radio"
+            name="preferred-theme"
+            value="light"
+            hx-put="{% url "settings" "preferred-theme" "light" %}"
+            hx-swap="none"
+            {% if user_preferences.preferred_theme == "light" %}checked{% endif %}
+        />
+        <label for="light">Light</label>
+    </div>
+    <div>
+        <input id="dark"
+            type="radio"
+            name="preferred-theme"
+            value="dark"
+            hx-put="{% url "settings" "preferred-theme" "dark" %}"
+            hx-swap="none"
+            {% if user_preferences.preferred_theme == "dark" %}checked{% endif %}
+        />
+        <label for="dark">Dark</label>
+    </div>
+</fieldset>
+<script defer>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        // handle darkmode toggle radio
+        Array.from(document.getElementById("theme-pref-fieldset")
+                .querySelectorAll("input[type='radio']"))
+                .forEach(input => {
+                    input.addEventListener("change", (e) => {
+                        if(e.target.checked) {
+                            if(e.target.value === "dark") {
+                                document.documentElement.classList.add("dark")
+                                localStorage.setItem("theme", "dark")
+                            } else {
+                                document.documentElement.classList.remove("dark")
+                                localStorage.setItem("theme", "light")
+                            }
+                        }
+                    })
+                })
+    })
+</script>
+{% endblock theme_pref_fieldset %}

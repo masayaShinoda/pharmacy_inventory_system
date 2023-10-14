@@ -60,20 +60,25 @@ def logout_view(request):
 @require_http_methods(["GET", "PUT"])
 def settings(request, preference_key=None, preference_value=None):
     user = request.user.id
+    context = {
+        'user_preferences': UserPreference.get_user_preferences(user),
+    }
+    
     if request.method == "GET":
-        context = {
-            'user_preferences': UserPreference.get_user_preferences(user),
-        }
         return render(request, "settings.html", context)
+    
     if request.method == "PUT":
         if preference_key == "preferred-theme":
             if preference_value == "light":
                 UserPreference.set_user_preferred_theme(user, "light")
+                return render(request, "settings.html", context)
             elif preference_value == "dark":
                 UserPreference.set_user_preferred_theme(user, "dark")
-        return HttpResponse("<p>Server has receieved PUT request!</p>")
+                return render(request, "settings.html", context)
+
     else:
         return HttpResponseBadRequest()
+
 
 @require_http_methods(['POST'])
 def clicked(request):

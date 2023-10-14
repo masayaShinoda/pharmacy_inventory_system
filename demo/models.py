@@ -8,7 +8,6 @@ class Manager(models.Model):
     def get_current_manager(user):
         return Manager.objects.get(user=user)
 
-
     def __str__(self):
         return self.user.username
 
