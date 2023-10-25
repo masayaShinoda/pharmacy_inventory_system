@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import LoginForm
 from .models import Manager, UserPreference, Pharmacy
 
+
 @login_required
 @require_http_methods(["GET"])
 def index(request):
@@ -17,6 +18,7 @@ def index(request):
     }
 
     return render(request, "index.html", context)
+
 
 @require_http_methods(["GET", "POST"])
 def login_view(request):
@@ -37,12 +39,13 @@ def login_view(request):
             password = form.cleaned_data["password"]
 
             user = authenticate(request, username=username, password=password)
-        
+
             if user is not None:
                 login(request, user)
                 return redirect("index")
             else:
-                messages.add_message(request, messages.ERROR, "Invalid username or password.")
+                messages.add_message(
+                    request, messages.ERROR, "Invalid username or password.")
                 return render(request, "login.html", {
                     "form": form,
                     "layout_options": {
@@ -50,11 +53,12 @@ def login_view(request):
                     }
                 })
 
+
 @require_http_methods(["GET"])
 def logout_view(request):
     logout(request)
     return redirect("index")
-    
+
 
 @login_required
 @require_http_methods(["GET", "PUT"])
@@ -63,10 +67,10 @@ def settings(request, preference_key=None, preference_value=None):
     context = {
         'user_preferences': UserPreference.get_user_preferences(user),
     }
-    
+
     if request.method == "GET":
         return render(request, "settings.html", context)
-    
+
     if request.method == "PUT":
         if preference_key == "preferred-theme":
             if preference_value == "light":

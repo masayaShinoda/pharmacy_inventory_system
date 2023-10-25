@@ -5,9 +5,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{% endblock title %} - Django Pharmacy System</title>
+    <title>
+      {% block title %}
+      {% endblock title %}
+    - Django Pharmacy System</title>
     <script src="{% static 'scripts/htmx.js' %}"></script>
-		{% tailwind_css %}
+    {% tailwind_css %}
   </head>
   <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <div class="flex w-full max-w-full min-h-screen dark:bg-neutral-900 dark:text-white transition-colors duration-150 ease-out">
@@ -16,11 +19,37 @@
       {% endif %}
       <main class="p-5 mx-0 md:mx-5 xl:mx-auto my-5 flex flex-col items-start w-full max-w-full xl:max-w-5xl 2xl:max-w-6xl">
         {% block body %}
-            <span>Loading...</span>
+          <span>Loading...</span>
         {% endblock body %}
       </main>
     </div>
     <noscript>Please enable JavaScript to continue.</noscript>
-    <script src="{% static 'scripts/darkmode.js' %}"></script>
+    {% comment %} to safely access with JS {% endcomment %}
+    {{ preferred_theme|json_script:"stored-preferred-theme" }}
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        // handle existing theme pref
+        const stored_theme_pref = JSON.parse(document.getElementById("stored-preferred-theme").textContent)
+        
+        if(stored_theme_pref === "dark") {
+          localStorage.setItem("theme", "dark")
+          document.documentElement.classList.add("dark");
+        } 
+        else if (stored_theme_pref === "light") {
+          localStorage.setItem("theme", "light")
+          document.documentElement.classList.remove("dark");
+        }
+        else {
+          // if no stored pref, check system pref
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            localStorage.setItem("theme", "dark")
+            document.documentElement.classList.add("dark");
+          } else {
+            localStorage.setItem("theme", "light")
+            document.documentElement.classList.remove("dark");
+          }
+        }
+    })
+    </script>
   </body>
 </html>
