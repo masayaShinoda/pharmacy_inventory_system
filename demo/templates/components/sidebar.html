@@ -19,7 +19,7 @@
                     </svg>
                     <span class="text-sm text-center md:text-base md:text-left">Dashboard</span>
                 </a>
-                <a href="{% url 'index' %}"
+                <a href="{% url 'inventory' %}"
                    class="group flex flex-col items-center flex-1 md:flex-row py-2 px-5 border-t border-transparent md:hover:bg-emerald-600 md:focus-visible:bg-emerald-600 md:hover:text-white md:focus-visible:text-white md:border-t-0 md:border-r-2 md:mb-2">
                     <svg class="mb-1 md:mb-0 md:mr-2 fill-neutral-600 md:group-hover:fill-white dark:fill-neutral-300"
                          xmlns="http://www.w3.org/2000/svg"
@@ -65,19 +65,14 @@
             const links = document.getElementById("nav").querySelectorAll("a")
 
             Array.from(links).map(link => {
-                switch (link.textContent.toLowerCase().trim()) {
-                    case "dashboard":
-                        if(pathname === "/") {
-                            link.classList.remove("border-transparent")
-                            link.classList.add("border-emerald-600")
-                        }
-                        break
-                    case "settings":
-                        if(pathname === "/settings") {
-                            link.classList.remove("border-transparent")
-                            link.classList.add("border-emerald-600")
-                        }
-                        break
+                if(link.textContent.toLowerCase().trim() === "dashboard" && pathname === "/") {
+                    // dashboard is a special case
+                    link.classList.remove("border-transparent")
+                    link.classList.add("border-emerald-600")    
+                }
+                if(link.textContent.toLowerCase().trim() === pathname.slice(1)) {
+                    link.classList.remove("border-transparent")
+                    link.classList.add("border-emerald-600")
                 }
             })
         })

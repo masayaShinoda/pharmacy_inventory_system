@@ -1,0 +1,16 @@
+{% extends "components/layout.html" %}
+{% block title %}
+    Inventory
+{% endblock title %}
+{% block body %}
+    <header class="mb-5">
+        <h2 class="text-2xl">Inventory</h2>
+    </header>
+    <section class="flex flex-col mb-3">
+        <select id="inventory-selected-pharmacy" class="dark:text-black">
+            {% for pharmacy in pharmacies %}<option value="{{ pharmacy.name }}">{{ pharmacy.name }}</option>{% endfor %}
+        </select>
+    </section>
+    <script>
+    </script>
+{% endblock body %}

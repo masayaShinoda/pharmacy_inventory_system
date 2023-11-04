@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LoginForm
-from .models import Manager, UserPreference, Pharmacy
+from .models import Manager, UserPreference, Pharmacy, Drug
 
 
 @login_required
@@ -83,6 +83,17 @@ def settings(request, preference_key=None, preference_value=None):
     else:
         return HttpResponseBadRequest()
 
+@login_required
+@require_http_methods(['GET'])
+def inventory_view(request):
+    user = request.user.id
+    pharmacies = Pharmacy.filter_managed_pharmacies(user)
+
+    context = {
+        'pharmacies': pharmacies
+    }
+
+    return render(request, "inventory.html", context)
 
 @require_http_methods(['POST'])
 def clicked(request):
