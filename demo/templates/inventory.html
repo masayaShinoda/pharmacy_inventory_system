@@ -7,10 +7,50 @@
         <h2 class="text-2xl">Inventory</h2>
     </header>
     <section class="flex flex-col mb-3">
-        <select id="inventory-selected-pharmacy" class="dark:text-black">
-            {% for pharmacy in pharmacies %}<option value="{{ pharmacy.name }}">{{ pharmacy.name }}</option>{% endfor %}
-        </select>
+        {% if pharmacies %}
+            <select id="selected-pharmacy" class="dark:text-black">
+                <option value="">Select pharmacy</option>
+                {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>{% endfor %}
+            </select>
+        {% else %}
+            <p>No pharmacy found.</p>
+        {% endif %}
+    </section>
+    <section class="flex flex-col mb-3">
+        <table>
+            <thead>
+                <td></td>
+            </thead>
+            <tbody>
+                {% comment %} {% for drug in drugs %}
+                    <tr>
+                        <td>{{ drug.open_fda.generic_name }}</td>
+                    </tr>
+                {% endfor %} {% endcomment %}
+            </tbody>
+        </table>
     </section>
     <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const select_pharmacy = document.getElementById("selected-pharmacy")
+        
+        const selected_pharmacy_param = (new URLSearchParams(window.location.search)).get("pharmacy")
+
+        if(selected_pharmacy_param) {
+            Array.from(document.querySelector("#selected-pharmacy").querySelectorAll("option")).map(option => {
+                if(option.value === selected_pharmacy_param) {
+                    option.selected = true
+                } else {
+                    option.selected = false
+                }
+            }) 
+        }
+        
+        select_pharmacy.addEventListener("change", (event) => {
+            if(event.target.value) {
+                window.location.assign(`${window.location.origin}/inventory?pharmacy=${event.target.value}`)
+            }
+        })
+      })
     </script>
 {% endblock body %}
