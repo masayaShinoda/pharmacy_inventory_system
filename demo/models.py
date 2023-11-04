@@ -50,6 +50,8 @@ class OpenFDADrug(models.Model):
     upc = ArrayField(models.CharField(max_length=255))
     unii = ArrayField(models.CharField(max_length=255))
 
+    def __str__(self):
+        return f"""{self.generic_name} - {self.brand_name}"""
 
 class Drug(models.Model):
     drug_id = models.CharField(max_length=255, primary_key=True)
@@ -82,7 +84,7 @@ class Drug(models.Model):
 
 
 class Pharmacy(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Pharmacy name")
+    name = models.CharField(max_length=255, verbose_name="Pharmacy name", unique=True)
     logo = models.ImageField(blank=True)
     drugs = models.ManyToManyField(Drug, blank=True)
 
@@ -94,5 +96,8 @@ class Pharmacy(models.Model):
     def filter_managed_pharmacies(user):
         return Pharmacy.objects.filter(manager=user)
 
+    def filter_pharmacy_drugs(user, pharmacy_id):
+        return Pharmacy.filter_managed_pharmacies(user).get(id=pharmacy_id).drugs.all()
+        
     def __str__(self):
         return self.name

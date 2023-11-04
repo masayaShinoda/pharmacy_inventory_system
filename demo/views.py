@@ -89,8 +89,17 @@ def inventory_view(request):
     user = request.user.id
     pharmacies = Pharmacy.filter_managed_pharmacies(user)
 
+    pharmacy_param = request.GET.get("pharmacy")
+    # selected_pharmacy = Pharmacy.objects.filter(pk=pharmacy_param)
+
+    # TODO: check query param for selected pharmacy
+    drugs = None
+    if pharmacy_param:
+        drugs = Pharmacy.filter_pharmacy_drugs(user, pharmacy_param)
+
     context = {
-        'pharmacies': pharmacies
+        'pharmacies': pharmacies,
+        'drugs': drugs if drugs else None
     }
 
     return render(request, "inventory.html", context)

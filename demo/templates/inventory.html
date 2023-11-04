@@ -6,7 +6,7 @@
     <header class="mb-5">
         <h2 class="text-2xl">Inventory</h2>
     </header>
-    <section class="flex flex-col mb-3">
+    <section class="flex flex-col mb-5">
         {% if pharmacies %}
             <select id="selected-pharmacy" class="dark:text-black">
                 <option value="">Select pharmacy</option>
@@ -16,19 +16,27 @@
             <p>No pharmacy found.</p>
         {% endif %}
     </section>
-    <section class="flex flex-col mb-3">
-        <table>
-            <thead>
-                <td></td>
-            </thead>
-            <tbody>
-                {% comment %} {% for drug in drugs %}
-                    <tr>
-                        <td>{{ drug.open_fda.generic_name }}</td>
-                    </tr>
-                {% endfor %} {% endcomment %}
-            </tbody>
-        </table>
+    <section class="flex flex-col mb-3 w-full">
+        {% if pharmacies %}
+            <table class="w-full border-collapse border border-slate-500">
+                <thead>
+                    <td class="p-2 border border-neutral-300 dark:border-neutral-600">Generic name(s)</td>
+                    <td class="p-2 border border-neutral-300 dark:border-neutral-600">Brand name(s)</td>
+                </thead>
+                <tbody>
+                    {% for drug in drugs %}
+                        <tr>
+                            <td class="p-2 border border-neutral-300 dark:border-neutral-600">
+                                {% for name in drug.open_fda.generic_name %}<span>{{ name }}</span>{% endfor %}
+                            </td>
+                            <td class="p-2 border border-neutral-300 dark:border-neutral-600">
+                                {% for name in drug.open_fda.brand_name %}<span>{{ name }}</span>{% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </section>
     <script>
       document.addEventListener("DOMContentLoaded", (event) => {
