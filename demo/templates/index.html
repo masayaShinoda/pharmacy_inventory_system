@@ -1,25 +1,24 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Howdy</title>
-		<script src="{% static 'htmx.js' %}"></script>
-	</head>
-	<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-		<h1>Howdy</h1>
-
-		<button
-			hx-confirm="Send a request?"
-			hx-post="/clicked"
-			hx-trigger="click"
-			hx-target="#response_from_server"
-		>
-			Click me
-		</button>
-
-		<label for="response_from_server">Response from server:</label>
-		<output id="response_from_server"></output>
-	</body>
-</html>
+{% extends "components/layout.html" %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+{% block body %}
+    <header class="mb-5">
+        <h2 class="text-2xl">Welcome back, {{ user.username }}.</h2>
+    </header>
+    {% if pharmacies %}
+        <h3>Pharmacies:</h3>
+        <ul>
+            {% for pharmacy in pharmacies %}<li>{{ pharmacy.name }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    <button hx-confirm="Send a request?"
+            hx-post="/clicked"
+            hx-trigger="click"
+            hx-target="#response_from_server"
+            class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:bg-emerald-700 transition-colors text-white border-none rounded-lg">
+        Click me
+    </button>
+    <label for="response_from_server">Response from server:</label>
+    <output id="response_from_server"></output>
+{% endblock body %}

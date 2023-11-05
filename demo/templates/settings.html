@@ -1,0 +1,16 @@
+{% extends "components/layout.html" %}
+{% block title %}
+    Settings
+{% endblock title %}
+{% block body %}
+    <header class="mb-5">
+        <h2 class="text-2xl">Settings</h2>
+    </header>
+    <section class="flex flex-col mb-3">
+        <p>Logged in as: {{ user.username }}</p>
+        <a href="{% url "logout" %}" class="text-emerald-600 underline">Logout</a>
+    </section>
+    <section class="flex flex-col mb-3">
+        {% include "components/settings/theme-pref-fieldset.html" %}
+    </section>
+{% endblock body %}
