@@ -6,7 +6,7 @@
     <header class="mb-5">
         <h2 class="text-2xl">Inventory</h2>
     </header>
-    <section class="flex flex-col mb-5">
+    <section class="flex justify-between items-center mb-5">
         {% if pharmacies %}
             <select id="selected-pharmacy" class="dark:text-black">
                 <option value="">Select pharmacy</option>
@@ -18,22 +18,52 @@
     </section>
     <section class="flex flex-col mb-3 w-full">
         {% if pharmacies %}
-            <table class="w-full border-collapse border border-slate-500">
+            <table class="w-full border-separate border-spacing-0 text-sm text-left">
                 <thead>
-                    <td class="p-2 border border-neutral-300 dark:border-neutral-600">Generic name(s)</td>
-                    <td class="p-2 border border-neutral-300 dark:border-neutral-600">Brand name(s)</td>
+                    <tr class="sticky top-0 text-white bg-emerald-700 dark:bg-emerald-700">
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Generic name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Brand name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Purpose</th>
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Indications</th>
+                        {%comment %} <th class="sticky top-0 py-1 px-2 border border-emerald-600">
+                                                    Warnings
+                        </th> {% endcomment %}
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">DO NOT USE</th>
+                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">STOP USE</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {% for drug in drugs %}
+                    {% if drugs %}
+                        {% for drug in drugs %}
+                            <tr>
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for name in drug.open_fda.generic_name %}<span>{{ name }}</span>{% endfor %}
+                                </td>
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for name in drug.open_fda.brand_name %}<span>{{ name }}</span>{% endfor %}
+                                </td>
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for purpose in drug.purpose %}<span>{{ purpose }}</span>{% endfor %}
+                                </td>
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for usage in drug.indications_and_usage %}<span>{{ usage|slice:"0:80" }}...</span>{% endfor %}
+                                </td>
+                                {% comment %} <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                {% for warning in drug.warnings %}<span>{{ warning }}</span>{% endfor %}
+                                </td> {% endcomment %}
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for do_not_use in drug.do_not_use %}<span>{{ do_not_use|slice:"0:80" }}...</span>{% endfor %}
+                                </td>
+                                <td class="p-2 border border-neutral-100 dark:border-neutral-700">
+                                    {% for stop_use in drug.stop_use %}<span>{{ stop_use|slice:"0:80" }}...</span>{% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
                         <tr>
-                            <td class="p-2 border border-neutral-300 dark:border-neutral-600">
-                                {% for name in drug.open_fda.generic_name %}<span>{{ name }}</span>{% endfor %}
-                            </td>
-                            <td class="p-2 border border-neutral-300 dark:border-neutral-600">
-                                {% for name in drug.open_fda.brand_name %}<span>{{ name }}</span>{% endfor %}
-                            </td>
+                            <td class="p-2">No drugs found.</td>
                         </tr>
-                    {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         {% endif %}
