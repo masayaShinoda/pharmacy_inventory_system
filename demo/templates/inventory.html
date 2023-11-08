@@ -6,29 +6,36 @@
     <header class="mb-5">
         <h2 class="text-2xl">Inventory</h2>
     </header>
-    <section class="flex justify-between items-center mb-5">
+    <section class="flex gap-3 items-center mb-5">
         {% if pharmacies %}
-            <select id="selected-pharmacy" class="dark:text-black">
+            <select id="selected-pharmacy" class="dark:text-black rounded">
                 <option value="">Select pharmacy</option>
                 {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>
                 {% endfor %}
             </select>
+            <button id="btn-add-drug" disabled hidden class="text-white bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded flex items-center">
+                <svg class="mr-1 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path></svg>
+                Add drug
+            </button>
         {% else %}
             <p>No pharmacy found.</p>
         {% endif %}
+        <dialog>
+            <h2>Add drug</h2>
+        </dialog>
     </section>
     <section class="flex flex-col mb-3 w-full">
         {% if pharmacies %}
             <table class="w-full border-separate border-spacing-0 text-sm text-left">
                 <thead>
-                    <tr class="sticky top-0 text-white bg-emerald-700 dark:bg-emerald-700">
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Generic name(s)</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Brand name(s)</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Purpose</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Indications</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">Dosage and administration</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">DO NOT USE</th>
-                        <th class="sticky top-0 py-1 px-2 border border-emerald-600">STOP USE</th>
+                    <tr class="sticky top-0 text-white">
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tl">Generic name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Brand name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Purpose</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Indications</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Dosage and administration</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">DO NOT USE</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tr">STOP USE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,6 +110,11 @@
         const selected_pharmacy_param = (new URLSearchParams(window.location.search)).get("pharmacy")
 
         if(selected_pharmacy_param) {
+            // if there is a selected pharmacy, show add drug btn
+            const btn_add_drug = document.getElementById("btn-add-drug")
+            btn_add_drug.disabled = false
+            btn_add_drug.hidden = false
+            
             Array.from(document.querySelector("#selected-pharmacy").querySelectorAll("option")).map(option => {
                 if(option.value === selected_pharmacy_param) {
                     option.selected = true
