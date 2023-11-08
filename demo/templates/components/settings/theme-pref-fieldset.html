@@ -2,26 +2,38 @@
 <fieldset id="theme-pref-fieldset">
     <legend>Preferred theme</legend>
     <div>
-        <input id="light"
-            type="radio"
-            name="preferred-theme"
-            value="light"
-            hx-put="{% url "settings" "preferred-theme" "light" %}"
-            hx-swap="none"
-            {% if user_preferences.preferred_theme == "light" %}checked{% endif %}
-        />
-        <label for="light">Light</label>
+        <label for="light" class="flex items-center py-1">
+            <input 
+                id="light"
+                class="mr-1"
+                type="radio"
+                name="preferred-theme"
+                value="light"
+                hx-put="{% url "settings" "preferred-theme" "light" %}"
+                hx-swap="none"
+                {% if user_preferences.preferred_theme == "light" %}checked{% endif %}
+            />
+            <span>
+                Light
+            </span>
+        </label>
     </div>
     <div>
-        <input id="dark"
-            type="radio"
-            name="preferred-theme"
-            value="dark"
-            hx-put="{% url "settings" "preferred-theme" "dark" %}"
-            hx-swap="none"
-            {% if user_preferences.preferred_theme == "dark" %}checked{% endif %}
-        />
-        <label for="dark">Dark</label>
+        <label for="dark" class="flex items-center py-1">
+            <input 
+                id="dark"
+                class="mr-1"
+                type="radio"
+                name="preferred-theme"
+                value="dark"
+                hx-put="{% url "settings" "preferred-theme" "dark" %}"
+                hx-swap="none"
+                {% if user_preferences.preferred_theme == "dark" %}checked{% endif %}
+            />
+            <span>
+                Dark
+            </span>
+        </label>
     </div>
 </fieldset>
 {% comment %} to safely access with JS {% endcomment %}
