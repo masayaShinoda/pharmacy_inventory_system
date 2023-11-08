@@ -13,7 +13,7 @@
                 {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>
                 {% endfor %}
             </select>
-            <button id="btn-add-drug" disabled hidden class="text-white bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded flex items-center">
+            <button id="btn-add-drug" disabled hidden class="text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded flex items-center">
                 <svg class="mr-1 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path></svg>
                 Add drug
             </button>
@@ -31,11 +31,11 @@
                     <tr class="sticky top-0 text-white">
                         <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tl">Generic name(s)</th>
                         <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Brand name(s)</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Purpose</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Indications</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Active ingredients</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Route</th>
                         <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Dosage and administration</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">DO NOT USE</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tr">STOP USE</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tr">Manufacturer name</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -50,44 +50,37 @@
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for name in drug.open_fda.brand_name %}
+                                    {% for brand_name in drug.open_fda.brand_name %}
                                     <span class="inline-block">
-                                        {{ name }}
+                                        {{ brand_name }}
                                     </span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for purpose in drug.purpose %}
+                                    {% for active_ingredient in drug.active_ingredient %}
                                     <span class="inline-block">
-                                        {{ purpose }}
+                                        {{ active_ingredient }}
                                     </span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for usage in drug.indications_and_usage %}
+                                    {% for route in drug.open_fda.route %}
                                     <span class="inline-block">
-                                        {{ usage|slice:"0:64" }}...
+                                        {{ route }}
                                     </span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                {% for dosage_and_administration in drug.dosage_and_administration %}
-                                <span class="inline-block">
-                                    {{ dosage_and_administration|slice:"0:64" }}...
-                                </span>
-                                {% endfor %}
-                                </td>
-                                <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for do_not_use in drug.do_not_use %}
+                                    {% for dosage_and_administration in drug.dosage_and_administration %}
                                     <span class="inline-block">
-                                        {{ do_not_use|slice:"0:64" }}...
+                                        {{ dosage_and_administration|slice:"0:80" }}...
                                     </span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for stop_use in drug.stop_use %}
+                                    {% for manufacturer_name in drug.open_fda.manufacturer_name %}
                                     <span class="inline-block">
-                                        {{ stop_use|slice:"0:64" }}...
+                                        {{ manufacturer_name }}
                                     </span>
                                     {% endfor %}
                                 </td>
