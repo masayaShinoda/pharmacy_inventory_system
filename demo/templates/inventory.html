@@ -6,14 +6,14 @@
     <header class="mb-5">
         <h2 class="text-2xl">Inventory</h2>
     </header>
-    <section class="flex gap-3 items-center mb-5">
+    <section class="flex gap-3 items-center mb-8">
         {% if pharmacies %}
-            <select id="selected-pharmacy" class="dark:text-black rounded">
+            <select id="selected-pharmacy" class="dark:text-black rounded border-none shadow-md">
                 <option value="">Select pharmacy</option>
                 {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>
                 {% endfor %}
             </select>
-            <button id="btn-add-drug" disabled hidden class="text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded flex items-center">
+            <button id="btn-add-drug" disabled hidden class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
                 <svg class="mr-1 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path></svg>
                 Add drug
             </button>
@@ -29,12 +29,12 @@
             <table class="w-full border-separate border-spacing-0 text-sm text-left">
                 <thead>
                     <tr class="sticky top-0 text-white">
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tl">Generic name(s)</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Brand name(s)</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Active ingredients</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Route</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600">Dosage and administration</th>
-                        <th class="sticky top-0 py-1 px-2 font-normal bg-emerald-700 border border-emerald-600 rounded-tr">Manufacturer name</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600 rounded-tl">Generic name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Brand name(s)</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Active ingredients</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Route</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Dosage and administration</th>
+                        <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600 rounded-tr">Manufacturer name</th>
 
                     </tr>
                 </thead>
@@ -85,7 +85,6 @@
                                     {% endfor %}
                                 </td>
                             </tr>
-                        
                             {% endfor %}
                     {% else %}
                         <tr>
