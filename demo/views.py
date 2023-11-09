@@ -64,8 +64,13 @@ def logout_view(request):
 @require_http_methods(["GET", "PUT"])
 def settings(request, preference_key=None, preference_value=None):
     user = request.user.id
+    try:
+        user_preferences = UserPreference.get_user_preferences(user)
+    except:
+        user_preferences = None
+
     context = {
-        'user_preferences': UserPreference.get_user_preferences(user),
+        'user_preferences': user_preferences,
     }
 
     if request.method == "GET":
