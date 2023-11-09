@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.shortcuts import get_object_or_404
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -24,7 +25,7 @@ class UserPreference(models.Model):
     )
 
     def get_user_preferences(user):
-        return UserPreference.objects.get(user=user)
+        return get_object_or_404(UserPreference, user=user)
 
     def set_user_preferred_theme(user, theme):
         UserPreference.objects.filter(user=user).update(preferred_theme=theme)
