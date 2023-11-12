@@ -31,26 +31,8 @@
                 No pharmacy found.
                 <button id="btn_dialog_add_pharmacy" class="text-emerald-600 underline">Add new pharmacy</button>
             </p>
-            <dialog id="dialog_add_pharmacy" class="w-96 p-5 rounded-lg backdrop:bg-black/75">
-                <header class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg">Add pharmacy</h2>
-                    <button id="btn_close_dialog_add_pharmacy"
-                            autofocus
-                            aria-label="Close dialog">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24"
-                             width="24"
-                             height="24">
-                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
-                            </path>
-                        </svg>
-                    </button>
-                </header>
-                <form method="dialog">
-                    {{ forms.add_pharmacy }}
-                </form>
-            </dialog>
-        {% endif %}
+            {% include "components/inventory/dialog-add-pharmacy.html" %}
+            {% endif %}
     </section>
     <section class="flex flex-col mb-3 w-full">
         {% if pharmacies %}
