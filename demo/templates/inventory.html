@@ -8,21 +8,49 @@
     </header>
     <section class="flex gap-3 items-center mb-8">
         {% if pharmacies %}
-            <select id="selected-pharmacy" class="dark:text-black rounded border-none shadow-md">
+            <select id="selected_pharmacy"
+                    class="dark:text-black rounded border-none shadow-md">
                 <option value="">Select pharmacy</option>
-                {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>
-                {% endfor %}
+                {% for pharmacy in pharmacies %}<option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>{% endfor %}
             </select>
-            <button id="btn-add-drug" disabled hidden class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
-                <svg class="mr-1 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path></svg>
+            <button id="btn_add_drug"
+                    disabled
+                    hidden
+                    class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
+                <svg class="mr-1 fill-white"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     width="16"
+                     height="16">
+                    <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
+                </svg>
                 Add drug
             </button>
         {% else %}
-            <p>No pharmacy found. <a href="#" class="text-emerald-600 underline">Add new pharmacy</a></p>
+            <p>
+                No pharmacy found.
+                <button id="btn_dialog_add_pharmacy" class="text-emerald-600 underline">Add new pharmacy</button>
+            </p>
+            <dialog id="dialog_add_pharmacy" class="w-96 p-5 rounded-lg backdrop:bg-black/75">
+                <header class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg">Add pharmacy</h2>
+                    <button id="btn_close_dialog_add_pharmacy"
+                            autofocus
+                            aria-label="Close dialog">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             width="24"
+                             height="24">
+                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                            </path>
+                        </svg>
+                    </button>
+                </header>
+                <form method="dialog">
+                    {{ forms.add_pharmacy }}
+                </form>
+            </dialog>
         {% endif %}
-        <dialog>
-            <h2>Add drug</h2>
-        </dialog>
     </section>
     <section class="flex flex-col mb-3 w-full">
         {% if pharmacies %}
@@ -35,7 +63,6 @@
                         <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Route</th>
                         <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600">Dosage and administration</th>
                         <th class="sticky top-0 py-1 px-2 font-normal bg-teal-700 border border-teal-600 rounded-tr">Manufacturer name</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -43,49 +70,31 @@
                         {% for drug in drugs %}
                             <tr>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for name in drug.open_fda.generic_name %}
-                                    <span class="inline-block">
-                                        {{ name }}
-                                    </span>
-                                    {% endfor %}
+                                    {% for name in drug.open_fda.generic_name %}<span class="inline-block">{{ name }}</span>{% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for brand_name in drug.open_fda.brand_name %}
-                                    <span class="inline-block">
-                                        {{ brand_name }}
-                                    </span>
-                                    {% endfor %}
+                                    {% for brand_name in drug.open_fda.brand_name %}<span class="inline-block">{{ brand_name }}</span>{% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
                                     {% for active_ingredient in drug.active_ingredient %}
-                                    <span class="inline-block">
-                                        {{ active_ingredient }}
-                                    </span>
+                                        <span class="inline-block">{{ active_ingredient }}</span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
-                                    {% for route in drug.open_fda.route %}
-                                    <span class="inline-block">
-                                        {{ route }}
-                                    </span>
-                                    {% endfor %}
+                                    {% for route in drug.open_fda.route %}<span class="inline-block">{{ route }}</span>{% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
                                     {% for dosage_and_administration in drug.dosage_and_administration %}
-                                    <span class="inline-block">
-                                        {{ dosage_and_administration|slice:"0:80" }}...
-                                    </span>
+                                        <span class="inline-block">{{ dosage_and_administration|slice:"0:80" }}...</span>
                                     {% endfor %}
                                 </td>
                                 <td class="p-2 border border-neutral-100 dark:border-neutral-700 align-top">
                                     {% for manufacturer_name in drug.open_fda.manufacturer_name %}
-                                    <span class="inline-block">
-                                        {{ manufacturer_name }}
-                                    </span>
+                                        <span class="inline-block">{{ manufacturer_name }}</span>
                                     {% endfor %}
                                 </td>
                             </tr>
-                            {% endfor %}
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td class="p-2">No drugs found.</td>
@@ -96,31 +105,51 @@
         {% endif %}
     </section>
     <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        const select_pharmacy = document.getElementById("selected-pharmacy")
-        
-        const selected_pharmacy_param = (new URLSearchParams(window.location.search)).get("pharmacy")
-
-        if(selected_pharmacy_param) {
-            // if there is a selected pharmacy, show add drug btn
-            const btn_add_drug = document.getElementById("btn-add-drug")
-            btn_add_drug.disabled = false
-            btn_add_drug.hidden = false
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // START handle select pharmacy
+            const select_pharmacy = document.getElementById("selected_pharmacy")
             
-            Array.from(document.querySelector("#selected-pharmacy").querySelectorAll("option")).map(option => {
-                if(option.value === selected_pharmacy_param) {
-                    option.selected = true
-                } else {
-                    option.selected = false
+            // select pharmacy only exists when at least 1 pharmacy exists
+            if(select_pharmacy) {
+                const selected_pharmacy_param = (new URLSearchParams(window.location.search)).get("pharmacy")
+    
+                if(selected_pharmacy_param) {
+                    // if there is a selected pharmacy, show add drug btn
+                    const btn_add_drug = document.getElementById("btn_add_drug")
+                    btn_add_drug.disabled = false
+                    btn_add_drug.hidden = false
+                    
+                    Array.from(select_pharmacy.querySelectorAll("option")).map(option => {
+                        if(option.value === selected_pharmacy_param) {
+                            option.selected = true
+                        } else {
+                            option.selected = false
+                        }
+                    }) 
                 }
-            }) 
-        }
-        
-        select_pharmacy.addEventListener("change", (event) => {
-            if(event.target.value) {
-                window.location.assign(`${window.location.origin}/inventory?pharmacy=${event.target.value}`)
+                
+                select_pharmacy.addEventListener("change", (event) => {
+                    if(event.target.value) {
+                        window.location.assign(`${window.location.origin}/inventory?pharmacy=${event.target.value}`)
+                    }
+                })
             }
+            // END handle select pharmacy
+            
+            // START handle add pharmacy dialog
+            const btn_dialog_add_pharmacy = document.getElementById("btn_dialog_add_pharmacy")
+            const dialog_add_pharmacy = document.getElementById("dialog_add_pharmacy")
+            const btn_close_dialog_add_pharmacy = document.getElementById("btn_close_dialog_add_pharmacy")
+            
+            btn_dialog_add_pharmacy.addEventListener("click", () => {
+                dialog_add_pharmacy.showModal()
+            })
+            btn_close_dialog_add_pharmacy.addEventListener("click", () => {
+                dialog_add_pharmacy.close()
+            })
+            // END handle add pharmacy dialog
+
         })
-      })
+        
     </script>
 {% endblock body %}

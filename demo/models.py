@@ -21,13 +21,17 @@ class UserPreference(models.Model):
             ("light", "light"),
         ],
         blank=True,
+        null=True,
     )
 
     def get_user_preferences(user):
-        return UserPreference.objects.get(user=user) 
+        return UserPreference.objects.get(pk=user) 
 
     def set_user_preferred_theme(user, theme):
-        UserPreference.objects.filter(user=user).update(preferred_theme=theme)
+        UserPreference.objects.update_or_create(pk=user, defaults={
+            "pk": user,
+            "preferred_theme": theme
+        })
 
     def __str__(self):
         return f"""{self.user}: {self.preferred_theme}"""

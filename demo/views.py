@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LoginForm
+from .forms import LoginForm, AddPharmacyForm
 from .models import Manager, UserPreference, Pharmacy, Drug
 
 
@@ -77,6 +77,8 @@ def settings(request, preference_key=None, preference_value=None):
         return render(request, "settings.html", context)
 
     if request.method == "PUT":
+        print("preference_key", preference_key, " preference_value", preference_value)
+
         if preference_key == "preferred-theme":
             if preference_value == "light":
                 UserPreference.set_user_preferred_theme(user, "light")
@@ -94,17 +96,21 @@ def inventory_view(request):
     user = request.user.id
     pharmacies = Pharmacy.filter_managed_pharmacies(user)
 
+    # check query param for selected pharmacy
     pharmacy_param = request.GET.get("pharmacy")
-    # selected_pharmacy = Pharmacy.objects.filter(pk=pharmacy_param)
 
-    # TODO: check query param for selected pharmacy
     drugs = None
     if pharmacy_param:
         drugs = Pharmacy.filter_pharmacy_drugs(user, pharmacy_param)
 
+    forms = {
+        'add_pharmacy': AddPharmacyForm()
+    }
+
     context = {
         'pharmacies': pharmacies,
-        'drugs': drugs if drugs else None
+        'drugs': drugs if drugs else None,
+        'forms': forms
     }
 
     return render(request, "inventory.html", context)
