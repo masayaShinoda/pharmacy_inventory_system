@@ -125,7 +125,30 @@ def add_pharmacy_view(request):
     if form.is_valid():
         pharmacy_name = form.cleaned_data["name"]
         print(pharmacy_name)
-        return HttpResponse("Server has received the submission!")
+        return HttpResponse(f"""
+            <div class="inline-flex items-center gap-2 py-3 px-4 rounded bg-neutral-100 dark:bg-neutral-700 shadow-md">
+                <svg
+                    class="fill-neutral-700 dark:fill-neutral-100" 
+                    xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24">
+                    <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 7H13V9H11V7ZM11 11H13V17H11V11Z">
+                    </path>
+                </svg>
+                <p id={{ alert_id|default:"" }} class="py-2 px-1">Added new pharmacy: {pharmacy_name}</p>
+                <button aria-label="Hide alert message" onclick="this.parentElement.style.display = 'none';">
+                    <svg class="fill-neutral-600 dark:fill-neutral-300"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        """)
 
 
 @require_http_methods(['POST'])

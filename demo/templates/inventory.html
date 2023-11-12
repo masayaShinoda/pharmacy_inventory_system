@@ -32,7 +32,7 @@
                 <button id="btn_dialog_add_pharmacy" class="text-emerald-600 underline">Add new pharmacy</button>
             </p>
             {% include "components/inventory/dialog-add-pharmacy.html" %}
-            {% include "components/alert.html" with alert_id="add_new_pharmacy_response" %}
+            <div id="add_new_pharmacy_response" class="flex flex-col gap-3 items-end justify-end fixed bottom-6 right-6"></div>
         {% endif %}
     </section>
     <section class="flex flex-col mb-3 w-full">
