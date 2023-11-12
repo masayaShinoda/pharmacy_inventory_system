@@ -1,0 +1,48 @@
+{% block dialog_add_pharmacy %}
+    <dialog id="dialog_add_pharmacy"
+            class="w-96 p-5 rounded-lg dark:text-white dark:bg-neutral-800 backdrop:bg-black/75 open:animate-fade-in backdrop:animate-fade-in">
+        <header class="flex justify-between items-center mb-3">
+            <h2 class="text-lg">Add pharmacy</h2>
+            <button id="btn_close_dialog_add_pharmacy" aria-label="Close dialog">
+                <svg class="dark:fill-white"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     width="24"
+                     height="24">
+                    <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                    </path>
+                </svg>
+            </button>
+        </header>
+        <form hx-post="{% url 'add_pharmacy' %}" hx-target="#add_new_pharmacy_response" class="py-1">
+            {{ forms.add_pharmacy }}
+            <div class="flex items-center gap-2 w-full mt-5">
+                {% csrf_token %}
+                <button type="submit" class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
+                    Create
+                </button>
+                <button id="btn_cancel_add_pharmacy" type="button" class="py-2 px-3">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // START handle add pharmacy dialog
+            const btn_dialog_add_pharmacy = document.getElementById("btn_dialog_add_pharmacy")
+            const dialog_add_pharmacy = document.getElementById("dialog_add_pharmacy")
+            const btn_close_dialog_add_pharmacy = document.getElementById("btn_close_dialog_add_pharmacy")
+            const btn_cancel_add_pharmacy = document.getElementById("btn_cancel_add_pharmacy")
+
+            btn_dialog_add_pharmacy.addEventListener("click", () => {
+                dialog_add_pharmacy.showModal()
+            })
+            btn_close_dialog_add_pharmacy.addEventListener("click", () => {
+                dialog_add_pharmacy.close()
+            })
+            btn_cancel_add_pharmacy.addEventListener("click", () => {
+                dialog_add_pharmacy.close()
+            })
+            // END handle add pharmacy dialog
+        })
+    </script>
+{% endblock dialog_add_pharmacy %}
