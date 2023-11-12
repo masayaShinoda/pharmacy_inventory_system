@@ -32,7 +32,8 @@
                 <button id="btn_dialog_add_pharmacy" class="text-emerald-600 underline">Add new pharmacy</button>
             </p>
             {% include "components/inventory/dialog-add-pharmacy.html" %}
-            {% endif %}
+            {% include "components/alert.html" with alert_id="add_new_pharmacy_response" %}
+        {% endif %}
     </section>
     <section class="flex flex-col mb-3 w-full">
         {% if pharmacies %}

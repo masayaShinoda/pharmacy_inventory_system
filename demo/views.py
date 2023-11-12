@@ -115,6 +115,19 @@ def inventory_view(request):
 
     return render(request, "inventory.html", context)
 
+@login_required
+@require_http_methods(['POST'])
+def add_pharmacy_view(request):
+    user = request.user.id
+
+    form = AddPharmacyForm(request.POST)
+
+    if form.is_valid():
+        pharmacy_name = form.cleaned_data["name"]
+        print(pharmacy_name)
+        return HttpResponse("Server has received the submission!")
+
+
 @require_http_methods(['POST'])
 def clicked(request):
     return HttpResponse("<p>Server has received the click!</p>")

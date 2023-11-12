@@ -14,11 +14,11 @@
                 </svg>
             </button>
         </header>
-        <form method="dialog" class="py-1">
+        <form hx-post="{% url 'add_pharmacy' %}" hx-target="#add_new_pharmacy_response" class="py-1">
             {{ forms.add_pharmacy }}
             <div class="flex items-center gap-2 w-full mt-5">
-                <button type="submit"
-                        class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
+                {% csrf_token %}
+                <button type="submit" class="flex items-center text-white cursor-pointer bg-emerald-700 hover:bg-emerald-600 py-2 px-3 rounded shadow-md">
                     Create
                 </button>
                 <button id="btn_cancel_add_pharmacy" type="button" class="py-2 px-3">Cancel</button>
